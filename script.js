@@ -89,7 +89,7 @@ function changeMonth(delta) {
 }
 
 // Paste the Web App URL you copied from Step 2 here:
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyg1DIShkP0nIn137D_3JVlbodJdL1gLiLjvzk7yIA_c9GpBE5xRC-jVC7naNtC1L12PA/exec";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw08J2knSWPhAGje8L9TLe_UNpVKhURmpvKyYTnRjmXybJnRnC4uPmgmeH-xA7y9yBAtA/exec";
 
 async function selectDate(year, month, day) {
     selectedDate = new Date(year, month, day);
