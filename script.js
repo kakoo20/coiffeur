@@ -3,6 +3,7 @@ let currentStep = 1;
 let currentDate = new Date(); // Current project timeline date layout Context (June 2026)
 let selectedDate = null;
 let selectedTime = null;
+let bookedSlots = [];
 
 // Header transformation on scroll
 window.addEventListener('scroll', () => {
@@ -171,13 +172,17 @@ function renderTimeSlots() {
     let html = '';
     
     slots.forEach((time) => {
-        // 1. Fixed break times (e.g., 10:00, 12:30, 15:00)
-        const isBreakTime = time === '12:30' || time === '20:10'
+        // 1. Fixed break times (e.g., 12:30, 20:10)
+        const isBreakTime = time === '12:30' || time === '20:10';
         
         // 2. Friday opening rule (Friday = day 5, opening at 14:00)
         const isFridayClosed = day === 5 && time < '14:00'; 
         
-        const isDisabled = isBreakTime || isFridayClosed;
+        // 3. Google Calendar sync rule
+        const isGoogleBooked = bookedSlots.includes(time); // <--- CHECKS BACKEND DATA
+        
+        // Combine all constraints to disable the slot if ANY condition matches
+        const isDisabled = isBreakTime || isFridayClosed || isGoogleBooked;
         const isSelected = selectedTime === time;
         
         let classes = 'time-slot';
