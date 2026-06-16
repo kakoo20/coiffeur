@@ -224,7 +224,7 @@ function validateForm() {
     document.getElementById('confirmBtn').disabled = !isValid;
 }
 
-function submitBooking() {
+async function submitBooking() {
     const btn = document.getElementById('confirmBtn');
     btn.innerHTML = '<span class="spinner"></span>Processing...';
     btn.disabled = true;
@@ -232,19 +232,58 @@ function submitBooking() {
     bookingState.name = document.getElementById('clientName').value.trim();
     bookingState.phone = document.getElementById('clientPhone').value.trim();
     bookingState.email = document.getElementById('clientEmail').value.trim();
+    const notes = document.getElementById('clientNotes').value.trim();
     
-    setTimeout(() => {
-        document.getElementById('bookingSuccess').classList.add('active');
-        document.getElementById('step3').classList.remove('active');
-        document.getElementById('bookingForm').querySelector('.booking-progress').style.display = 'none';
+    // Format the selected date cleanly as YYYY-MM-DD
+    const year = selectedDate.getFullYear();
+    const month = selectedDate.getMonth();
+    const day = selectedDate.getDate();
+    const formattedDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    
+    // Package all appointment specifics
+    const bookingData = {
+        action: 'book',
+        service: bookingState.service,
+        date: formattedDate,
+        time: selectedTime,
+        name: bookingState.name,
+        phone: bookingState.phone,
+        email: bookingState.email,
+        notes: notes
+    };
+    
+    try {
+        // Send the payload to Google Apps Script
+        // NOTE: We pass it raw to bypass CORS OPTIONS preflight blocks
+        const response = await fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify(bookingData)
+        });
         
-        document.getElementById('successService').textContent = bookingState.service;
-        document.getElementById('successDate').textContent = selectedDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
-        document.getElementById('successTime').textContent = selectedTime;
-        document.getElementById('successName').textContent = bookingState.name;
-    }, 1500);
+        const result = await response.json();
+        
+        if (result.success) {
+            // UI Success Transition
+            document.getElementById('bookingSuccess').classList.add('active');
+            document.getElementById('step3').classList.remove('active');
+            document.getElementById('bookingForm').querySelector('.booking-progress').style.display = 'none';
+            
+            document.getElementById('successService').textContent = bookingState.service;
+            document.getElementById('successDate').textContent = selectedDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+            document.getElementById('successTime').textContent = selectedTime;
+            document.getElementById('successName').textContent = bookingState.name;
+        } else {
+            alert('Booking failed: ' + (result.error || 'Unknown error occurred.'));
+            btn.innerHTML = 'Confirm Reservation';
+            btn.disabled = false;
+        }
+    } catch (error) {
+        console.error("Booking transmission error:", error);
+        alert('Could not connect to reservation server. Please verify your internet connection.');
+        btn.innerHTML = 'Confirm Reservation';
+        btn.disabled = false;
+    }
 }
-
 function resetBooking() {
     bookingState = { service: null, price: 0, date: null, time: null, name: '', phone: '', email: '' };
     selectedDate = null;
