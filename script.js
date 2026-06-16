@@ -230,16 +230,63 @@ function validateForm() {
     const emailEl = document.getElementById('clientEmail');
     const confirmBtn = document.getElementById('confirmBtn');
     
+    // Grab the red text error message elements
+    const nameError = document.getElementById('nameError');
+    const phoneError = document.getElementById('phoneError');
+    const emailError = document.getElementById('emailError');
+    
     if (!nameEl || !phoneEl || !confirmBtn) return;
 
     const name = nameEl.value.trim();
     const phone = phoneEl.value.trim();
     const email = emailEl ? emailEl.value.trim() : '';
     
+    // 1. Logic Validation Rules
+    const isNameValid = name.length > 2;
+    const isPhoneValid = phone.length > 8;
     const isEmailValid = email === '' || (email.includes('@') && email.includes('.'));
-    const isValid = name.length > 2 && phone.length > 8 && isEmailValid;
     
+    // 2. Red Inline Warnings UI Control
+    
+    // Name field error: Show only if they started typing but it's too short
+    if (name.length > 0 && !isNameValid) {
+        if (nameError) nameError.style.display = 'block';
+        nameEl.style.borderColor = '#ff4d4d'; // Red border
+    } else {
+        if (nameError) nameError.style.display = 'none';
+        nameEl.style.borderColor = ''; // Default border
+    }
+
+    // Phone field error: Show if they typed something but it's under 9 digits (like a 5-digit number)
+    if (phone.length > 0 && !isPhoneValid) {
+        if (phoneError) phoneError.style.display = 'block';
+        phoneEl.style.borderColor = '#ff4d4d';
+    } else {
+        if (phoneError) phoneError.style.display = 'none';
+        phoneEl.style.borderColor = '';
+    }
+
+    // Email field error: Since it's optional, only check if it's NOT empty
+    if (email.length > 0 && !isEmailValid) {
+        if (emailError) emailError.style.display = 'block';
+        if (emailEl) emailEl.style.borderColor = '#ff4d4d';
+    } else {
+        if (emailError) emailError.style.display = 'none';
+        if (emailEl) emailEl.style.borderColor = '';
+    }
+    
+    // 3. Master Button State Switch
+    const isValid = isNameValid && isPhoneValid && isEmailValid;
     confirmBtn.disabled = !isValid;
+    
+    // Optional styling to make the button look disabled or active
+    if (isValid) {
+        confirmBtn.style.opacity = '1';
+        confirmBtn.style.cursor = 'pointer';
+    } else {
+        confirmBtn.style.opacity = '0.5';
+        confirmBtn.style.cursor = 'not-allowed';
+    }
 }
 
 // Booking submission via clean, redirect-safe GET parameterization
@@ -357,8 +404,36 @@ function resetBooking() {
     if (step1) step1.classList.add('active');
     
     renderCalendar();
+    // Add this inside your existing resetBooking() function to clear old validation flags
+const nameError = document.getElementById('nameError');
+const phoneError = document.getElementById('phoneError');
+const emailError = document.getElementById('emailError');
+const nameInput = document.getElementById('clientName');
+const phoneInput = document.getElementById('clientPhone');
+const emailInput = document.getElementById('clientEmail');
+
+if (nameError) nameError.style.display = 'none';
+if (phoneError) phoneError.style.display = 'none';
+if (emailError) emailError.style.display = 'none';
+
+if (nameInput) nameInput.style.borderColor = '';
+if (phoneInput) phoneInput.style.borderColor = '';
+if (emailInput) emailInput.style.borderColor = '';
 }
 
 document.addEventListener("DOMContentLoaded", function() {
     renderCalendar();
+    // Inside your document.addEventListener("DOMContentLoaded", function() { ... })
+const nameInput = document.getElementById('clientName');
+const phoneInput = document.getElementById('clientPhone');
+const emailInput = document.getElementById('clientEmail');
+
+if (nameInput && phoneInput) {
+    nameInput.addEventListener('input', validateForm);
+    phoneInput.addEventListener('input', validateForm);
+    if (emailInput) emailInput.addEventListener('input', validateForm);
+    
+    // Run once at startup to make sure button is disabled when empty
+    validateForm();
+}
 });

@@ -280,15 +280,18 @@
                     <div class="form-group">
                         <label for="clientName">Full Name <span>*</span></label>
                         <input type="text" id="clientName" placeholder="e.g. Ahmed Benali" oninput="validateForm()">
+                        <div id="nameError" class="error-message" style="color: #ff4d4d; font-size: 0.85rem; margin-top: 5px; display: none;">Full name must be at least 3 characters.</div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
                             <label for="clientPhone">Phone Number <span>*</span></label>
                             <input type="tel" id="clientPhone" placeholder="e.g. 0550 12 34 56" oninput="validateForm()">
+                            <div id="phoneError" class="error-message" style="color: #ff4d4d; font-size: 0.85rem; margin-top: 5px; display: none;">Please enter a valid phone number (minimum 9 digits).</div>
                         </div>
                         <div class="form-group">
                             <label for="clientEmail">Email Address </label>
                             <input type="email" id="clientEmail" placeholder="e.g. ahmed@email.com" oninput="validateForm()">
+                            <div id="emailError" class="error-message" style="color: #ff4d4d; font-size: 0.85rem; margin-top: 5px; display: none;">Please enter a valid email address format.</div>
                         </div>
                     </div>
                     <div class="form-group">
