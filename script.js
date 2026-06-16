@@ -88,13 +88,34 @@ function changeMonth(delta) {
     renderCalendar();
 }
 
-function selectDate(year, month, day) {
+// Paste the Web App URL you copied from Step 2 here:
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyg1DIShkP0nIn137D_3JVlbodJdL1gLiLjvzk7yIA_c9GpBE5xRC-jVC7naNtC1L12PA/exec";
+
+async function selectDate(year, month, day) {
     selectedDate = new Date(year, month, day);
-    renderCalendar();
-    renderTimeSlots();
-    document.getElementById('timeSlotsContainer').style.display = 'block';
-    selectedTime = null;
+    selectedDate.setHours(0, 0, 0, 0);
+    
+    selectedTime = null; 
     document.getElementById('step2Next').disabled = true;
+    
+    const formattedDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    const timeGrid = document.getElementById('timeGrid');
+    
+    timeGrid.innerHTML = '<div style="color: var(--text-secondary); grid-column: 1/-1; text-align: center; padding: 20px;">Checking availability...</div>';
+    document.getElementById('timeSlotsContainer').style.display = 'block';
+
+    try {
+        // Fetch busy times directly from your free Google Apps Script web app
+        const response = await fetch(`${GOOGLE_SCRIPT_URL}?date=${formattedDate}`);
+        const data = await response.json();
+        bookedSlots = data.busyTimes || [];
+    } catch (error) {
+        console.error("Error connecting to calendar script: ", error);
+        bookedSlots = []; 
+    }
+
+    renderCalendar();
+    renderTimeSlots(); 
 }
 
 function renderCalendar() {
@@ -144,13 +165,19 @@ function changeMonth(delta) {
 }
 
 function renderTimeSlots() {
-    const slots = ['09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00'];
+    // You can freely add or remove times from this list!
+    const slots = ['10:00','10:50','11:40','12:30','13:30','14:20','15:10','16:00','16:50','17:40','18:30','19:20','20:10','21:00','21:50','22:40'];
     const day = selectedDate ? selectedDate.getDay() : -1;
     let html = '';
     
-    slots.forEach((time, index) => {
-        // FIX: Changed index < 6 to index < 8 to respect Friday's 2:00 PM (14:00) opening hour rule
-        const isDisabled = (index === 2 || index === 7 || index === 12) || (day === 5 && index < 8);
+    slots.forEach((time) => {
+        // 1. Fixed break times (e.g., 10:00, 12:30, 15:00)
+        const isBreakTime = time === '12:30' || time === '20:10'
+        
+        // 2. Friday opening rule (Friday = day 5, opening at 14:00)
+        const isFridayClosed = day === 5 && time < '14:00'; 
+        
+        const isDisabled = isBreakTime || isFridayClosed;
         const isSelected = selectedTime === time;
         
         let classes = 'time-slot';
@@ -158,32 +185,8 @@ function renderTimeSlots() {
         if (isSelected) classes += ' selected';
         
         if (isDisabled) {
-            html += '<div class="' + classes + '">' + time + '</div>';
+            html += `<div class="${classes}">${time}</div>`;
         } else {
-            html += `<div class="${classes}" onclick="selectTime(this, '${time}')">${time}</div>`;
-        }
-    });
-    document.getElementById('timeGrid').innerHTML = html;
-}
-
-function renderTimeSlots() {
-    const slots = ['09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00'];
-    const day = selectedDate ? selectedDate.getDay() : -1;
-    let html = '';
-    
-    slots.forEach((time, index) => {
-        // Mocking some business booking logic variants per slot criteria safely
-        const isDisabled = (index === 2 || index === 7 || index === 12) || (day === 5 && index < 6);
-        const isSelected = selectedTime === time;
-        
-        let classes = 'time-slot';
-        if (isDisabled) classes += ' disabled';
-        if (isSelected) classes += ' selected';
-        
-        if (isDisabled) {
-            html += '<div class="' + classes + '">' + time + '</div>';
-        } else {
-            // FIXED: Standard template string literal encapsulation to completely eliminate unexpected quote breaking syntax anomalies
             html += `<div class="${classes}" onclick="selectTime(this, '${time}')">${time}</div>`;
         }
     });
@@ -208,7 +211,11 @@ function validateForm() {
     const name = document.getElementById('clientName').value.trim();
     const phone = document.getElementById('clientPhone').value.trim();
     const email = document.getElementById('clientEmail').value.trim();
-    const isValid = name.length > 2 && phone.length > 8 && email.includes('@') && email.includes('.');
+    
+    // Email is optional: valid if left completely empty, OR must be formatted correctly if typed
+    const isEmailValid = email === '' || (email.includes('@') && email.includes('.'));
+    
+    const isValid = name.length > 2 && phone.length > 8 && isEmailValid;
     document.getElementById('confirmBtn').disabled = !isValid;
 }
 
