@@ -82,13 +82,6 @@ function selectServiceFromCard(name, price) {
 
 const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
-
-
-function changeMonth(delta) {
-    currentDate.setMonth(currentDate.getMonth() + delta);
-    renderCalendar();
-}
-
 // Paste the Web App URL you copied from Step 2 here:
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw08J2knSWPhAGje8L9TLe_UNpVKhURmpvKyYTnRjmXybJnRnC4uPmgmeH-xA7y9yBAtA/exec";
 
@@ -166,7 +159,6 @@ function changeMonth(delta) {
 }
 
 function renderTimeSlots() {
-    // You can freely add or remove times from this list!
     const slots = ['10:00','10:50','11:40','12:30','13:30','14:20','15:10','16:00','16:50','17:40','18:30','19:20','20:10','21:00','21:50','22:40'];
     const day = selectedDate ? selectedDate.getDay() : -1;
     let html = '';
@@ -179,9 +171,8 @@ function renderTimeSlots() {
         const isFridayClosed = day === 5 && time < '14:00'; 
         
         // 3. Google Calendar sync rule
-        const isGoogleBooked = bookedSlots.includes(time); // <--- CHECKS BACKEND DATA
+        const isGoogleBooked = bookedSlots.includes(time);
         
-        // Combine all constraints to disable the slot if ANY condition matches
         const isDisabled = isBreakTime || isFridayClosed || isGoogleBooked;
         const isSelected = selectedTime === time;
         
@@ -217,10 +208,9 @@ function validateForm() {
     const phone = document.getElementById('clientPhone').value.trim();
     const email = document.getElementById('clientEmail').value.trim();
     
-    // Email is optional: valid if left completely empty, OR must be formatted correctly if typed
     const isEmailValid = email === '' || (email.includes('@') && email.includes('.'));
-    
     const isValid = name.length > 2 && phone.length > 8 && isEmailValid;
+    
     document.getElementById('confirmBtn').disabled = !isValid;
 }
 
@@ -232,15 +222,13 @@ async function submitBooking() {
     bookingState.name = document.getElementById('clientName').value.trim();
     bookingState.phone = document.getElementById('clientPhone').value.trim();
     bookingState.email = document.getElementById('clientEmail').value.trim();
-    const notes = document.getElementById('clientNotes').value.trim();
+    const notes = document.getElementById('clientNotes') ? document.getElementById('clientNotes').value.trim() : '';
     
-    // Format the selected date cleanly as YYYY-MM-DD
     const year = selectedDate.getFullYear();
     const month = selectedDate.getMonth();
     const day = selectedDate.getDate();
     const formattedDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     
-    // Package all appointment specifics
     const bookingData = {
         action: 'book',
         service: bookingState.service,
@@ -253,8 +241,6 @@ async function submitBooking() {
     };
     
     try {
-        // Send the payload to Google Apps Script
-        // NOTE: We pass it raw to bypass CORS OPTIONS preflight blocks
         const response = await fetch(GOOGLE_SCRIPT_URL, {
             method: 'POST',
             body: JSON.stringify(bookingData)
@@ -263,7 +249,6 @@ async function submitBooking() {
         const result = await response.json();
         
         if (result.success) {
-            // UI Success Transition
             document.getElementById('bookingSuccess').classList.add('active');
             document.getElementById('step3').classList.remove('active');
             document.getElementById('bookingForm').querySelector('.booking-progress').style.display = 'none';
@@ -284,6 +269,7 @@ async function submitBooking() {
         btn.disabled = false;
     }
 }
+
 function resetBooking() {
     bookingState = { service: null, price: 0, date: null, time: null, name: '', phone: '', email: '' };
     selectedDate = null;
@@ -295,7 +281,7 @@ function resetBooking() {
     document.getElementById('clientName').value = '';
     document.getElementById('clientPhone').value = '';
     document.getElementById('clientEmail').value = '';
-    document.getElementById('clientNotes').value = '';
+    if(document.getElementById('clientNotes')) document.getElementById('clientNotes').value = '';
     
     document.getElementById('timeSlotsContainer').style.display = 'none';
     document.getElementById('bookingSuccess').classList.remove('active');
@@ -316,7 +302,6 @@ function resetBooking() {
     renderCalendar();
 }
 
-// Initializing the application scripts safely 
 document.addEventListener("DOMContentLoaded", function() {
     renderCalendar();
 });
