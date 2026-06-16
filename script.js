@@ -5,14 +5,19 @@ let selectedDate = null;
 let selectedTime = null;
 let bookedSlots = [];
 
-// Header transformation on scroll
+// Insert your newly generated Google Web App URL here:
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw08J2knSWPhAGje8L9TLe_UNpVKhURmpvKyYTnRjmXybJnRnC4uPmgmeH-xA7y9yBAtA/exec";
+
+// Header Scroll Effect
 window.addEventListener('scroll', () => {
     const header = document.getElementById('header');
-    if (window.scrollY > 50) header.classList.add('scrolled');
-    else header.classList.remove('scrolled');
+    if (header) {
+        if (window.scrollY > 50) header.classList.add('scrolled');
+        else header.classList.remove('scrolled');
+    }
 });
 
-// Modern UI Layout Content Reveal Engine
+// UI Animation Reveal Engine
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) entry.target.classList.add('visible');
@@ -24,21 +29,20 @@ document.querySelectorAll('.reveal').forEach(el => {
     observer.observe(el);
 });
 
-// Animation Fallback Execution
 setTimeout(() => {
     document.querySelectorAll('.reveal').forEach(el => {
         el.classList.add('visible');
         el.style.opacity = '1';
         el.style.transform = 'translateY(0)';
     });
-}, 1500);
+}, 1200);
 
-// NAVIGATION HANDLERS
+// Navigation Elements
 function toggleMobileMenu() {
     const nav = document.getElementById('navLinks');
     const btn = document.getElementById('menuBtn');
-    nav.classList.toggle('active');
-    btn.classList.toggle('active');
+    if (nav) nav.classList.toggle('active');
+    if (btn) btn.classList.toggle('active');
 }
 
 function closeMobileMenu() {
@@ -48,13 +52,14 @@ function closeMobileMenu() {
     if (btn) btn.classList.remove('active');
 }
 
-// FORM STEPPING WIZARD
+// Form Stepper Wizard Logic
 function goToStep(step) {
     if (step === 2 && !bookingState.service) return;
     if (step === 3 && (!selectedDate || !selectedTime)) return;
     
     document.querySelectorAll('.booking-step').forEach(s => s.classList.remove('active'));
-    document.getElementById('step' + step).classList.add('active');
+    const targetStep = document.getElementById('step' + step);
+    if (targetStep) targetStep.classList.add('active');
     
     for (let i = 1; i <= 3; i++) {
         const indicator = document.getElementById('step' + i + 'Indicator');
@@ -72,16 +77,16 @@ function selectService(element) {
     document.querySelectorAll('.service-option').forEach(opt => opt.classList.remove('selected'));
     element.classList.add('selected');
     bookingState.service = element.dataset.service;
-    bookingState.price = parseInt(element.dataset.price);
-    document.getElementById('step1Next').disabled = false;
+    bookingState.price = parseInt(element.dataset.price) || 0;
+    
+    const nextBtn = document.getElementById('step1Next');
+    if (nextBtn) nextBtn.disabled = false;
 }
 
 function selectServiceFromCard(name, price) {
     const options = document.querySelectorAll('.service-option');
     options.forEach(opt => { 
-        if (opt.dataset.service === name) {
-            selectService(opt);
-        }
+        if (opt.dataset.service === name) selectService(opt);
     });
     const bookingSection = document.getElementById('booking');
     if (bookingSection) bookingSection.scrollIntoView({ behavior: 'smooth' });
@@ -90,31 +95,30 @@ function selectServiceFromCard(name, price) {
 
 const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
-// Your Google Script Web App URL:
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw08J2knSWPhAGje8L9TLe_UNpVKhURmpvKyYTnRjmXybJnRnC4uPmgmeH-xA7y9yBAtA/exec";
-
+// Fetch Availability via GET Route
 async function selectDate(year, month, day) {
     selectedDate = new Date(year, month, day);
     selectedDate.setHours(0, 0, 0, 0);
-    
     selectedTime = null; 
-    document.getElementById('step2Next').disabled = true;
+    
+    const nextBtn = document.getElementById('step2Next');
+    if (nextBtn) nextBtn.disabled = true;
     
     const formattedDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     const timeGrid = document.getElementById('timeGrid');
-    
     if (timeGrid) {
-        timeGrid.innerHTML = '<div style="color: var(--text-secondary); grid-column: 1/-1; text-align: center; padding: 20px;">Checking availability...</div>';
+        timeGrid.innerHTML = '<div style="color: var(--text-secondary); grid-column: 1/-1; text-align: center; padding: 20px;"><span class="spinner"></span> Reading real-time availability...</div>';
     }
+    
     const container = document.getElementById('timeSlotsContainer');
     if (container) container.style.display = 'block';
 
     try {
-        const response = await fetch(`${GOOGLE_SCRIPT_URL}?date=${formattedDate}`);
+        const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=getBusyTimes&date=${formattedDate}`);
         const data = await response.json();
         bookedSlots = data.busyTimes || [];
     } catch (error) {
-        console.error("Error connecting to calendar script: ", error);
+        console.error("Calendar link failure:", error);
         bookedSlots = []; 
     }
 
@@ -157,7 +161,7 @@ function renderCalendar() {
         if (isSelected) classes += ' selected';
         
         if (isPast || isSunday) {
-            html += '<div class="' + classes + '">' + day + '</div>';
+            html += `<div class="${classes}">${day}</div>`;
         } else {
             html += `<div class="${classes}" onclick="selectDate(${year}, ${month}, ${day})">${day}</div>`;
         }
@@ -204,35 +208,50 @@ function selectTime(element, time) {
     document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
     element.classList.add('selected');
     selectedTime = time;
-    document.getElementById('step2Next').disabled = false;
+    const nextBtn = document.getElementById('step2Next');
+    if (nextBtn) nextBtn.disabled = false;
 }
 
 function updateSummary() {
-    document.getElementById('summaryService').textContent = bookingState.service;
-    document.getElementById('summaryDate').textContent = selectedDate ? selectedDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }) : '-';
-    document.getElementById('summaryTime').textContent = selectedTime || '-';
-    document.getElementById('summaryPrice').textContent = bookingState.price.toLocaleString() + ' DZD';
+    const sService = document.getElementById('summaryService');
+    const sDate = document.getElementById('summaryDate');
+    const sTime = document.getElementById('summaryTime');
+    const sPrice = document.getElementById('summaryPrice');
+
+    if (sService) sService.textContent = bookingState.service || '-';
+    if (sDate) sDate.textContent = selectedDate ? selectedDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }) : '-';
+    if (sTime) sTime.textContent = selectedTime || '-';
+    if (sPrice) sPrice.textContent = bookingState.price ? bookingState.price.toLocaleString() + ' DZD' : '-';
 }
 
 function validateForm() {
-    const name = document.getElementById('clientName').value.trim();
-    const phone = document.getElementById('clientPhone').value.trim();
-    const email = document.getElementById('clientEmail').value.trim();
+    const nameEl = document.getElementById('clientName');
+    const phoneEl = document.getElementById('clientPhone');
+    const emailEl = document.getElementById('clientEmail');
+    const confirmBtn = document.getElementById('confirmBtn');
+    
+    if (!nameEl || !phoneEl || !confirmBtn) return;
+
+    const name = nameEl.value.trim();
+    const phone = phoneEl.value.trim();
+    const email = emailEl ? emailEl.value.trim() : '';
     
     const isEmailValid = email === '' || (email.includes('@') && email.includes('.'));
     const isValid = name.length > 2 && phone.length > 8 && isEmailValid;
     
-    document.getElementById('confirmBtn').disabled = !isValid;
+    confirmBtn.disabled = !isValid;
 }
 
+// Booking submission via clean, redirect-safe GET parameterization
 async function submitBooking() {
     const btn = document.getElementById('confirmBtn');
-    btn.innerHTML = '<span class="spinner"></span>Processing...';
+    if (!btn) return;
+    btn.innerHTML = '<span class="spinner"></span> Creating Appointment...';
     btn.disabled = true;
     
     bookingState.name = document.getElementById('clientName').value.trim();
     bookingState.phone = document.getElementById('clientPhone').value.trim();
-    bookingState.email = document.getElementById('clientEmail').value.trim();
+    bookingState.email = document.getElementById('clientEmail') ? document.getElementById('clientEmail').value.trim() : '';
     const notes = document.getElementById('clientNotes') ? document.getElementById('clientNotes').value.trim() : '';
     
     const year = selectedDate.getFullYear();
@@ -240,11 +259,10 @@ async function submitBooking() {
     const day = selectedDate.getDate();
     const formattedDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     
-    const bookingData = {
-        action: 'book',
-        service: bookingState.service,
+    const bookingPayload = {
         date: formattedDate,
         time: selectedTime,
+        service: bookingState.service,
         name: bookingState.name,
         phone: bookingState.phone,
         email: bookingState.email,
@@ -252,30 +270,36 @@ async function submitBooking() {
     };
     
     try {
-        const response = await fetch(GOOGLE_SCRIPT_URL, {
-            method: 'POST',
-            body: JSON.stringify(bookingData)
-        });
-        
+        const encodedData = encodeURIComponent(JSON.stringify(bookingPayload));
+        const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=book&data=${encodedData}`);
         const result = await response.json();
         
         if (result.success) {
-            document.getElementById('bookingSuccess').classList.add('active');
-            document.getElementById('step3').classList.remove('active');
-            document.getElementById('bookingForm').querySelector('.booking-progress').style.display = 'none';
+            const successScreen = document.getElementById('bookingSuccess');
+            const step3Screen = document.getElementById('step3');
+            const progressWizard = document.querySelector('.booking-progress');
             
-            document.getElementById('successService').textContent = bookingState.service;
-            document.getElementById('successDate').textContent = selectedDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
-            document.getElementById('successTime').textContent = selectedTime;
-            document.getElementById('successName').textContent = bookingState.name;
+            if (successScreen) successScreen.classList.add('active');
+            if (step3Screen) step3Screen.classList.remove('active');
+            if (progressWizard) progressWizard.style.display = 'none';
+            
+            const succService = document.getElementById('successService');
+            const succDate = document.getElementById('successDate');
+            const succTime = document.getElementById('successTime');
+            const succName = document.getElementById('successName');
+
+            if (succService) succService.textContent = bookingState.service;
+            if (succDate) succDate.textContent = selectedDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+            if (succTime) succTime.textContent = selectedTime;
+            if (succName) succName.textContent = bookingState.name;
         } else {
-            alert('Booking failed: ' + (result.error || 'Unknown error occurred.'));
+            alert('Booking engine notice: ' + (result.error || 'Please choose a different slot.'));
             btn.innerHTML = 'Confirm Reservation';
             btn.disabled = false;
         }
     } catch (error) {
-        console.error("Booking transmission error:", error);
-        alert('Could not connect to reservation server. Please verify your internet connection.');
+        console.error("Booking error details:", error);
+        alert('Network connection sync error. Check internet link and try again.');
         btn.innerHTML = 'Confirm Reservation';
         btn.disabled = false;
     }
@@ -289,19 +313,36 @@ function resetBooking() {
     currentDate = new Date();
     
     document.querySelectorAll('.service-option').forEach(opt => opt.classList.remove('selected'));
-    document.getElementById('clientName').value = '';
-    document.getElementById('clientPhone').value = '';
-    document.getElementById('clientEmail').value = '';
-    if(document.getElementById('clientNotes')) document.getElementById('clientNotes').value = '';
     
-    document.getElementById('timeSlotsContainer').style.display = 'none';
-    document.getElementById('bookingSuccess').classList.remove('active');
-    document.getElementById('bookingForm').querySelector('.booking-progress').style.display = 'flex';
+    const cName = document.getElementById('clientName');
+    const cPhone = document.getElementById('clientPhone');
+    const cEmail = document.getElementById('clientEmail');
+    const cNotes = document.getElementById('clientNotes');
     
-    document.getElementById('confirmBtn').innerHTML = 'Confirm Reservation';
-    document.getElementById('confirmBtn').disabled = true;
-    document.getElementById('step1Next').disabled = true;
-    document.getElementById('step2Next').disabled = true;
+    if (cName) cName.value = '';
+    if (cPhone) cPhone.value = '';
+    if (cEmail) cEmail.value = '';
+    if (cNotes) cNotes.value = '';
+    
+    const container = document.getElementById('timeSlotsContainer');
+    if (container) container.style.display = 'none';
+    
+    const successScreen = document.getElementById('bookingSuccess');
+    if (successScreen) successScreen.classList.remove('active');
+    
+    const progressWizard = document.querySelector('.booking-progress');
+    if (progressWizard) progressWizard.style.display = 'flex';
+    
+    const confirmBtn = document.getElementById('confirmBtn');
+    if (confirmBtn) {
+        confirmBtn.innerHTML = 'Confirm Reservation';
+        confirmBtn.disabled = true;
+    }
+    
+    const s1Next = document.getElementById('step1Next');
+    const s2Next = document.getElementById('step2Next');
+    if (s1Next) s1Next.disabled = true;
+    if (s2Next) s2Next.disabled = true;
     
     for (let i = 1; i <= 3; i++) {
         const indicator = document.getElementById('step' + i + 'Indicator');
@@ -310,8 +351,11 @@ function resetBooking() {
             if (i === 1) indicator.classList.add('active');
         }
     }
+    
     document.querySelectorAll('.booking-step').forEach(s => s.classList.remove('active'));
-    document.getElementById('step1').classList.add('active');
+    const step1 = document.getElementById('step1');
+    if (step1) step1.classList.add('active');
+    
     renderCalendar();
 }
 
