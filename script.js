@@ -1,6 +1,6 @@
 let bookingState = { service: null, price: 0, date: null, time: null, name: '', phone: '', email: '' };
 let currentStep = 1;
-let currentDate = new Date(); // Current project timeline date layout Context (June 2026)
+let currentDate = new Date(); 
 let selectedDate = null;
 let selectedTime = null;
 let bookedSlots = [];
@@ -33,7 +33,7 @@ setTimeout(() => {
     });
 }, 1500);
 
-// NAVIGATION HANDLERS (FIXED)
+// NAVIGATION HANDLERS
 function toggleMobileMenu() {
     const nav = document.getElementById('navLinks');
     const btn = document.getElementById('menuBtn');
@@ -41,7 +41,14 @@ function toggleMobileMenu() {
     btn.classList.toggle('active');
 }
 
-// FORM STEPPING WIZARD (FIXED)
+function closeMobileMenu() {
+    const nav = document.getElementById('navLinks');
+    const btn = document.getElementById('menuBtn');
+    if (nav) nav.classList.remove('active');
+    if (btn) btn.classList.remove('active');
+}
+
+// FORM STEPPING WIZARD
 function goToStep(step) {
     if (step === 2 && !bookingState.service) return;
     if (step === 3 && (!selectedDate || !selectedTime)) return;
@@ -51,9 +58,11 @@ function goToStep(step) {
     
     for (let i = 1; i <= 3; i++) {
         const indicator = document.getElementById('step' + i + 'Indicator');
-        indicator.classList.remove('active', 'completed');
-        if (i < step) indicator.classList.add('completed');
-        else if (i === step) indicator.classList.add('active');
+        if (indicator) {
+            indicator.classList.remove('active', 'completed');
+            if (i < step) indicator.classList.add('completed');
+            else if (i === step) indicator.classList.add('active');
+        }
     }
     currentStep = step;
     if (step === 3) updateSummary();
@@ -67,7 +76,6 @@ function selectService(element) {
     document.getElementById('step1Next').disabled = false;
 }
 
-// Selection enhancement directly from the upper service grid cards
 function selectServiceFromCard(name, price) {
     const options = document.querySelectorAll('.service-option');
     options.forEach(opt => { 
@@ -75,14 +83,14 @@ function selectServiceFromCard(name, price) {
             selectService(opt);
         }
     });
-    document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
-    // Advance UX directly to step 2 selection once a showcase card item is clicked
+    const bookingSection = document.getElementById('booking');
+    if (bookingSection) bookingSection.scrollIntoView({ behavior: 'smooth' });
     setTimeout(() => { goToStep(2); }, 400);
 }
 
 const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
-// Paste the Web App URL you copied from Step 2 here:
+// Your Google Script Web App URL:
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw08J2knSWPhAGje8L9TLe_UNpVKhURmpvKyYTnRjmXybJnRnC4uPmgmeH-xA7y9yBAtA/exec";
 
 async function selectDate(year, month, day) {
@@ -95,11 +103,13 @@ async function selectDate(year, month, day) {
     const formattedDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     const timeGrid = document.getElementById('timeGrid');
     
-    timeGrid.innerHTML = '<div style="color: var(--text-secondary); grid-column: 1/-1; text-align: center; padding: 20px;">Checking availability...</div>';
-    document.getElementById('timeSlotsContainer').style.display = 'block';
+    if (timeGrid) {
+        timeGrid.innerHTML = '<div style="color: var(--text-secondary); grid-column: 1/-1; text-align: center; padding: 20px;">Checking availability...</div>';
+    }
+    const container = document.getElementById('timeSlotsContainer');
+    if (container) container.style.display = 'block';
 
     try {
-        // Fetch busy times directly from your free Google Apps Script web app
         const response = await fetch(`${GOOGLE_SCRIPT_URL}?date=${formattedDate}`);
         const data = await response.json();
         bookedSlots = data.busyTimes || [];
@@ -113,17 +123,21 @@ async function selectDate(year, month, day) {
 }
 
 function renderCalendar() {
+    const calendarGrid = document.getElementById('calendarGrid');
+    if (!calendarGrid) return;
+
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
-    document.getElementById('currentMonth').textContent = monthNames[month] + ' ' + year;
+    const currentMonthEl = document.getElementById('currentMonth');
+    if (currentMonthEl) currentMonthEl.textContent = monthNames[month] + ' ' + year;
     
     const firstDay = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     const today = new Date(); 
     
-    // FIX: Disable backward navigation if viewing the initial baseline month
     const isCurrentMonth = year === today.getFullYear() && month === today.getMonth();
-    document.getElementById('prevMonth').disabled = isCurrentMonth;
+    const prevMonthBtn = document.getElementById('prevMonth');
+    if (prevMonthBtn) prevMonthBtn.disabled = isCurrentMonth;
     
     let html = '';
     for (let i = 0; i < firstDay; i++) {
@@ -148,29 +162,26 @@ function renderCalendar() {
             html += `<div class="${classes}" onclick="selectDate(${year}, ${month}, ${day})">${day}</div>`;
         }
     }
-    document.getElementById('calendarGrid').innerHTML = html;
+    calendarGrid.innerHTML = html;
 }
 
 function changeMonth(delta) {
-    // FIX: Prevent rollover calendar skips on safe day variants
     currentDate.setDate(1);
     currentDate.setMonth(currentDate.getMonth() + delta);
     renderCalendar();
 }
 
 function renderTimeSlots() {
+    const timeGrid = document.getElementById('timeGrid');
+    if (!timeGrid) return;
+
     const slots = ['10:00','10:50','11:40','12:30','13:30','14:20','15:10','16:00','16:50','17:40','18:30','19:20','20:10','21:00','21:50','22:40'];
     const day = selectedDate ? selectedDate.getDay() : -1;
     let html = '';
     
     slots.forEach((time) => {
-        // 1. Fixed break times (e.g., 12:30, 20:10)
         const isBreakTime = time === '12:30' || time === '20:10';
-        
-        // 2. Friday opening rule (Friday = day 5, opening at 14:00)
         const isFridayClosed = day === 5 && time < '14:00'; 
-        
-        // 3. Google Calendar sync rule
         const isGoogleBooked = bookedSlots.includes(time);
         
         const isDisabled = isBreakTime || isFridayClosed || isGoogleBooked;
@@ -186,7 +197,7 @@ function renderTimeSlots() {
             html += `<div class="${classes}" onclick="selectTime(this, '${time}')">${time}</div>`;
         }
     });
-    document.getElementById('timeGrid').innerHTML = html;
+    timeGrid.innerHTML = html;
 }
 
 function selectTime(element, time) {
@@ -294,8 +305,10 @@ function resetBooking() {
     
     for (let i = 1; i <= 3; i++) {
         const indicator = document.getElementById('step' + i + 'Indicator');
-        indicator.classList.remove('active', 'completed');
-        if (i === 1) indicator.classList.add('active');
+        if (indicator) {
+            indicator.classList.remove('active', 'completed');
+            if (i === 1) indicator.classList.add('active');
+        }
     }
     document.querySelectorAll('.booking-step').forEach(s => s.classList.remove('active'));
     document.getElementById('step1').classList.add('active');
