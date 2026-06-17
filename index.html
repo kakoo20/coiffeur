@@ -296,7 +296,7 @@
 
                     <div class="email-action-wrapper" style="margin-bottom: 1rem; width: 100%;">
                         <button id="sendEmailBtn" onclick="sendBookingEmail()">Send by Email</button>
-                        <p id="emailStatus" style="display: none; font-size: 0.85rem; margin: 0.5rem 0 0 0; font-weight: 500;"></p>
+                       
                     </div>
 
                     <button type="button" class="btn btn-outline" onclick="resetBooking()">Book Another</button>
@@ -348,5 +348,14 @@
 </footer>
 
 <script src="script.js"></script>
+<div id="customNotification" class="notification">
+    <div class="notification-content">
+        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+            <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none" />
+            <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+        </svg>
+        <span id="notificationMessage">Email Sent Successfully!</span>
+    </div>
+</div>
 </body>
 </html>

@@ -245,3 +245,96 @@ footer { background: #0a0a0a; border-top: 1px solid var(--border); padding: 60px
 .reveal { opacity: 1; transform: translateY(0); transition: all 0.8s ease; }
 .reveal.animate-in { opacity: 0; transform: translateY(40px); }
 .reveal.animate-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Custom Style for the Send Email Button */
+#sendEmailBtn {
+    background-color: transparent;
+    color: #c9a96e; /* Premium Gold */
+    border: 2px solid #c9a96e;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 15px;
+    width: 100%; /* Adjust or remove depending on your layout */
+}
+
+/* Hover Effect */
+#sendEmailBtn:hover {
+    background-color: #c9a96e;
+    color: #121212; /* Dark background on hover */
+}
+
+/* Disabled State (when sending) */
+#sendEmailBtn:disabled {
+    background-color: #2a2a2a;
+    color: #666666;
+    border-color: #2a2a2a;
+    cursor: not-allowed;
+}
+
+/* --- Custom Animated Notification --- */
+.notification {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: #1a1a1a;
+    border-left: 4px solid #22c55e; /* Success Green */
+    color: #ffffff;
+    padding: 16px 24px;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    z-index: 9999;
+    /* Starts off-screen to the right */
+    transform: translateX(150%);
+    transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.notification.show {
+    transform: translateX(0); /* Slides in */
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+/* Checkmark SVG Animation */
+.checkmark {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: block;
+    stroke-width: 4;
+    stroke: #22c55e;
+    stroke-miterlimit: 10;
+}
+
+.notification.show .checkmark-circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.notification.show .checkmark-check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    /* Starts drawing slightly after the circle */
+    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.5s forwards;
+}
+
+@keyframes stroke {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}

@@ -394,10 +394,13 @@ function sendBookingEmail() {
     })
     .then(function(response) {
        console.log("SUCCESS!", response.status, response.text);
-       alert("Confirmation email sent!");
+       showNotification("Email Confirmation Sent!");
+       emailBtn.innerHTML = 'Email Sent!';
+       emailBtn.style.backgroundColor = '#22c55e';
+       emailBtn.style.color = '#121212';
     }, function(error) {
        console.error("FAILED...", error);
-       alert("Error: " + JSON.stringify(error));
+       showNotification("Failed to send email.", true);
     });
 }
 
@@ -500,3 +503,25 @@ if (nameInput && phoneInput) {
 }
 });
 
+function showNotification(message, isError = false) {
+    const notif = document.getElementById('customNotification');
+    const msgText = document.getElementById('notificationMessage');
+    const checkmark = document.querySelector('.checkmark');
+    
+    msgText.innerText = message;
+    
+    if (isError) {
+        notif.style.borderLeftColor = '#ef4444'; // Red border
+        checkmark.style.stroke = '#ef4444'; // Red icon
+    } else {
+        notif.style.borderLeftColor = '#22c55e'; // Green border
+        checkmark.style.stroke = '#22c55e'; // Green icon
+    }
+
+    notif.classList.add('show');
+
+    // Automatically slide it away after 4 seconds
+    setTimeout(() => {
+        notif.classList.remove('show');
+    }, 4000);
+}
