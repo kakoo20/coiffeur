@@ -366,16 +366,19 @@ function sendBookingEmail() {
     statusMsg.style.color = '#a0aec0'; 
     statusMsg.innerText = "Connecting to mail server...";
 
-    // Flatten data structures and encode them individually to bypass JSON structure drops
+    // Extract, flatten and safely encode individual values to cross the network layer
     const name = encodeURIComponent(bookingState.name);
     const email = encodeURIComponent(bookingState.email);
     const phone = encodeURIComponent(bookingState.phone);
     const service = encodeURIComponent(bookingState.service);
     const price = encodeURIComponent(bookingState.price || 0);
-    const date = selectedDate ? encodeURIComponent(`${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`) : '';
+    
+    // Format the date securely as YYYY-MM-DD
+    const dateStr = selectedDate ? `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}` : '';
+    const date = encodeURIComponent(dateStr);
     const time = encodeURIComponent(selectedTime || '');
 
-    // Build independent URL query parameters matching the backend requirements directly
+    // Construct flattened query keys matching 'e.parameter.email', 'e.parameter.name', etc.
     const queryString = `?action=sendEmail&email=${email}&name=${name}&phone=${phone}&service=${service}&price=${price}&date=${date}&time=${time}`;
 
     fetch(`${GOOGLE_SCRIPT_URL}${queryString}`, {
