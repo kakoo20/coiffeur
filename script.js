@@ -375,8 +375,8 @@ function sendBookingEmail() {
     const date = selectedDate ? encodeURIComponent(`${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`) : '';
     const time = encodeURIComponent(selectedTime || '');
 
-    // Build independent URL query parameters matching the backend requirements
-    const queryString = `?action=sendEmail&name=${name}&email=${email}&phone=${phone}&service=${service}&price=${price}&date=${date}&time=${time}`;
+    // Build independent URL query parameters matching the backend requirements directly
+    const queryString = `?action=sendEmail&email=${email}&name=${name}&phone=${phone}&service=${service}&price=${price}&date=${date}&time=${time}`;
 
     fetch(`${GOOGLE_SCRIPT_URL}${queryString}`, {
         method: 'GET',
