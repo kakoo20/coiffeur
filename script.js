@@ -310,6 +310,7 @@ async function submitBooking() {
         date: formattedDate,
         time: selectedTime,
         service: bookingState.service,
+        price: bookingState.price,
         name: bookingState.name,
         phone: bookingState.phone,
         email: bookingState.email,
@@ -318,6 +319,7 @@ async function submitBooking() {
     
     try {
         const encodedData = encodeURIComponent(JSON.stringify(bookingPayload));
+        // We use standard fetch here so that Apps Script returns authentic processing statuses!
         const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=book&data=${encodedData}`);
         const result = await response.json();
         
@@ -330,15 +332,10 @@ async function submitBooking() {
             if (step3Screen) step3Screen.classList.remove('active');
             if (progressWizard) progressWizard.style.display = 'none';
             
-            const succService = document.getElementById('successService');
-            const succDate = document.getElementById('successDate');
-            const succTime = document.getElementById('successTime');
-            const succName = document.getElementById('successName');
-
-            if (succService) succService.textContent = bookingState.service;
-            if (succDate) succDate.textContent = selectedDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
-            if (succTime) succTime.textContent = selectedTime;
-            if (succName) succName.textContent = bookingState.name;
+            document.getElementById('successService').textContent = bookingState.service;
+            document.getElementById('successDate').textContent = selectedDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+            document.getElementById('successTime').textContent = selectedTime;
+            document.getElementById('successName').textContent = bookingState.name;
         } else {
             alert('Booking engine notice: ' + (result.error || 'Please choose a different slot.'));
             btn.innerHTML = 'Confirm Reservation';
@@ -346,7 +343,7 @@ async function submitBooking() {
         }
     } catch (error) {
         console.error("Booking error details:", error);
-        alert('Network connection sync error. Check internet link and try again.');
+        alert('Network sync issue. Your booking might have completed. Please check your inbox or call us.');
         btn.innerHTML = 'Confirm Reservation';
         btn.disabled = false;
     }
