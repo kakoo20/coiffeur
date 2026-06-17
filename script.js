@@ -366,7 +366,7 @@ function sendBookingEmail() {
     statusMsg.style.color = '#a0aec0'; 
     statusMsg.innerText = "Connecting to mail server...";
 
-    // Extract values cleanly and encode each property individually
+    // Flatten data structures and encode them individually to bypass JSON structure drops
     const name = encodeURIComponent(bookingState.name);
     const email = encodeURIComponent(bookingState.email);
     const phone = encodeURIComponent(bookingState.phone);
@@ -375,7 +375,7 @@ function sendBookingEmail() {
     const date = selectedDate ? encodeURIComponent(`${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`) : '';
     const time = encodeURIComponent(selectedTime || '');
 
-    // Construct flattened independent URL parameters
+    // Build independent URL query parameters matching the backend requirements
     const queryString = `?action=sendEmail&name=${name}&email=${email}&phone=${phone}&service=${service}&price=${price}&date=${date}&time=${time}`;
 
     fetch(`${GOOGLE_SCRIPT_URL}${queryString}`, {
