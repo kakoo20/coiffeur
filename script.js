@@ -351,54 +351,27 @@ async function submitBooking() {
 
 function sendBookingEmail() {
     const emailBtn = document.getElementById('sendEmailBtn');
-    const statusMsg = document.getElementById('emailStatus');
     
-    if (!bookingState || !bookingState.email) {
-        statusMsg.style.display = 'block';
-        statusMsg.style.color = '#ef4444'; 
-        statusMsg.innerText = "Error: No email address found for this session.";
-        return;
-    }
+    // Use the variables you already have in bookingState
+    const templateParams = {
+        client_name: bookingState.name,
+        client_email: bookingState.email,
+        service_name: bookingState.service,
+        booking_date: bookingState.date,
+        booking_time: bookingState.time,
+        service_price: bookingState.price
+    };
 
-    emailBtn.disabled = true;
-    emailBtn.innerHTML = 'Sending Email...';
-    statusMsg.style.display = 'block';
-    statusMsg.style.color = '#a0aec0'; 
-    statusMsg.innerText = "Connecting to mail server...";
+    emailBtn.innerHTML = 'Sending...';
 
-    // Extract, flatten and safely encode individual values to cross the network layer
-    const name = encodeURIComponent(bookingState.name);
-    const email = encodeURIComponent(bookingState.email);
-    const phone = encodeURIComponent(bookingState.phone);
-    const service = encodeURIComponent(bookingState.service);
-    const price = encodeURIComponent(bookingState.price || 0);
-    
-    // Format the date securely as YYYY-MM-DD
-    const dateStr = selectedDate ? `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}` : '';
-    const date = encodeURIComponent(dateStr);
-    const time = encodeURIComponent(selectedTime || '');
-
-    // Construct flattened query keys matching 'e.parameter.email', 'e.parameter.name', etc.
-    const queryString = `?action=sendEmail&email=${email}&name=${name}&phone=${phone}&service=${service}&price=${price}&date=${date}&time=${time}`;
-
-    fetch(`${GOOGLE_SCRIPT_URL}${queryString}`, {
-        method: 'GET',
-        mode: 'no-cors'
-    })
-    .then(() => {
-        emailBtn.innerHTML = 'Email Sent!';
-        emailBtn.style.backgroundColor = '#22c55e'; 
-        emailBtn.style.borderColor = '#22c55e';
-        statusMsg.style.color = '#22c55e';
-        statusMsg.innerText = `Confirmation sent to ${bookingState.email}!`;
-    })
-    .catch(error => {
-        console.error('Email Dispatch Error:', error);
-        emailBtn.disabled = false;
-        emailBtn.innerHTML = 'Send by Email';
-        statusMsg.style.color = '#ef4444';
-        statusMsg.innerText = "Failed to send email. Please try again.";
-    });
+    emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", templateParams)
+        .then(function(response) {
+           alert("Confirmation email sent successfully!");
+           emailBtn.innerHTML = 'Email Sent!';
+        }, function(error) {
+           console.log("FAILED...", error);
+           alert("Email failed to send.");
+        });
 }
 
 function resetBooking() {
