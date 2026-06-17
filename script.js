@@ -351,6 +351,7 @@ async function submitBooking() {
 
 // This function must exist in your script.js
 function sendBookingEmail() {
+    console.log("Current Booking State:", bookingState);
     console.log("Button clicked. Attempting to send email..."); // Look for this in the console
     const emailBtn = document.getElementById('sendEmailBtn');
     
