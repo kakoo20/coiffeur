@@ -205,9 +205,27 @@ function renderTimeSlots() {
 }
 
 function selectTime(element, time) {
+    // 1. Update UI (Your existing code)
     document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
     element.classList.add('selected');
+    
+    // 2. Update local tracking variable
     selectedTime = time;
+    
+    // 3. FIX: Update the global bookingState object that EmailJS uses
+    bookingState.time = time;
+    
+    // Also save the date into bookingState
+    if (selectedDate instanceof Date) {
+        // Formats date as YYYY-MM-DD
+        bookingState.date = selectedDate.toISOString().split('T')[0];
+    } else {
+        bookingState.date = selectedDate; // fallback if it's already a string
+    }
+
+    console.log("State updated! Current bookingState:", bookingState); // DEBUGGING
+
+    // 4. Existing button logic
     const nextBtn = document.getElementById('step2Next');
     if (nextBtn) nextBtn.disabled = false;
 }
