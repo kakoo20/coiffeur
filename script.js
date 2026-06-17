@@ -352,6 +352,60 @@ async function submitBooking() {
     }
 }
 
+function sendBookingEmail() {
+    const emailBtn = document.getElementById('sendEmailBtn');
+    const statusMsg = document.getElementById('emailStatus');
+    
+    if (!bookingState || !bookingState.email) {
+        statusMsg.style.display = 'block';
+        statusMsg.style.color = '#ef4444'; // Error Red
+        statusMsg.innerText = "Error: No email address found for this session.";
+        return;
+    }
+
+    // Update UI states to loading
+    emailBtn.disabled = true;
+    emailBtn.innerHTML = '<span class="spinner"></span> Sending Email...';
+    statusMsg.style.display = 'block';
+    statusMsg.style.color = '#a0aec0'; // Light neutral gray text
+    statusMsg.innerText = "Connecting to mail server...";
+
+    // Construct the data package matching your exact system layout
+    const emailData = {
+        name: bookingState.name,
+        email: bookingState.email,
+        phone: bookingState.phone,
+        service: bookingState.service,
+        price: bookingState.price || 0,
+        date: selectedDate ? `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}` : '',
+        time: selectedTime || ''
+    };
+
+    const encodedData = encodeURIComponent(JSON.stringify(emailData));
+
+    // Fire the request using your exact URL template matching GET syntax
+    fetch(`${GOOGLE_SCRIPT_URL}?action=sendEmail&data=${encodedData}`)
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            emailBtn.innerHTML = 'Email Sent!';
+            emailBtn.style.backgroundColor = '#22c55e'; // Success Green
+            emailBtn.style.borderColor = '#22c55e';
+            statusMsg.style.color = '#22c55e';
+            statusMsg.innerText = `Confirmation sent to ${bookingState.email}!`;
+        } else {
+            throw new Error(result.error || "Server failed to send email.");
+        }
+    })
+    .catch(error => {
+        console.error('Email Dispatch Error:', error);
+        emailBtn.disabled = false;
+        emailBtn.innerHTML = 'Send by Email';
+        statusMsg.style.color = '#ef4444';
+        statusMsg.innerText = "Failed to send email. Please try again.";
+    });
+}
+
 function resetBooking() {
     bookingState = { service: null, price: 0, date: null, time: null, name: '', phone: '', email: '' };
     selectedDate = null;
@@ -405,21 +459,34 @@ function resetBooking() {
     
     renderCalendar();
     // Add this inside your existing resetBooking() function to clear old validation flags
-const nameError = document.getElementById('nameError');
-const phoneError = document.getElementById('phoneError');
-const emailError = document.getElementById('emailError');
-const nameInput = document.getElementById('clientName');
-const phoneInput = document.getElementById('clientPhone');
-const emailInput = document.getElementById('clientEmail');
+    const nameError = document.getElementById('nameError');
+    const phoneError = document.getElementById('phoneError');
+    const emailError = document.getElementById('emailError');
+    const nameInput = document.getElementById('clientName');
+    const phoneInput = document.getElementById('clientPhone');
+    const emailInput = document.getElementById('clientEmail');
 
-if (nameError) nameError.style.display = 'none';
-if (phoneError) phoneError.style.display = 'none';
-if (emailError) emailError.style.display = 'none';
+    if (nameError) nameError.style.display = 'none';
+    if (phoneError) phoneError.style.display = 'none';
+    if (emailError) emailError.style.display = 'none';
 
-if (nameInput) nameInput.style.borderColor = '';
-if (phoneInput) phoneInput.style.borderColor = '';
-if (emailInput) emailInput.style.borderColor = '';
-}
+    if (nameInput) nameInput.style.borderColor = '';
+    if (phoneInput) phoneInput.style.borderColor = '';
+    if (emailInput) emailInput.style.borderColor = '';
+
+    const emailBtn = document.getElementById('sendEmailBtn');
+    const statusMsg = document.getElementById('emailStatus');
+    if (emailBtn) {
+        emailBtn.disabled = false;
+        emailBtn.innerHTML = 'Send by Email';
+        emailBtn.style.backgroundColor = ''; // Restores your default template CSS design
+        emailBtn.style.borderColor = '';
+    }
+    if (statusMsg) {
+        statusMsg.style.display = 'none';
+        statusMsg.innerText = '';
+    }
+  }
 
 document.addEventListener("DOMContentLoaded", function() {
     renderCalendar();
@@ -437,3 +504,4 @@ if (nameInput && phoneInput) {
     validateForm();
 }
 });
+
