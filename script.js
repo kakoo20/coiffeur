@@ -369,26 +369,23 @@ function sendBookingEmail() {
     statusMsg.style.color = '#a0aec0'; 
     statusMsg.innerText = "Connecting to mail server...";
 
-    const emailData = {
-        name: bookingState.name,
-        email: bookingState.email,
-        phone: bookingState.phone,
-        service: bookingState.service,
-        price: bookingState.price || 0,
-        date: selectedDate ? `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}` : '',
-        time: selectedTime || ''
-    };
+    // Extract values cleanly and encode each property individually
+    const name = encodeURIComponent(bookingState.name);
+    const email = encodeURIComponent(bookingState.email);
+    const phone = encodeURIComponent(bookingState.phone);
+    const service = encodeURIComponent(bookingState.service);
+    const price = encodeURIComponent(bookingState.price || 0);
+    const date = selectedDate ? encodeURIComponent(`${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`) : '';
+    const time = encodeURIComponent(selectedTime || '');
 
-    const encodedData = encodeURIComponent(JSON.stringify(emailData));
+    // Construct flattened independent URL parameters
+    const queryString = `?action=sendEmail&name=${name}&email=${email}&phone=${phone}&service=${service}&price=${price}&date=${date}&time=${time}`;
 
-    // FIX: Using mode: 'no-cors' lets the network execution safely pass Google macro blocks
-    fetch(`${GOOGLE_SCRIPT_URL}?action=sendEmail&data=${encodedData}`, {
+    fetch(`${GOOGLE_SCRIPT_URL}${queryString}`, {
         method: 'GET',
         mode: 'no-cors'
     })
     .then(() => {
-        // Because no-cors opaque responses don't read raw payload text data structures, 
-        // a completed network execution roundtrip safely indicates a success response!
         emailBtn.innerHTML = 'Email Sent!';
         emailBtn.style.backgroundColor = '#22c55e'; 
         emailBtn.style.borderColor = '#22c55e';
