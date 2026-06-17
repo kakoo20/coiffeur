@@ -349,29 +349,36 @@ async function submitBooking() {
     }
 }
 
+// This function must exist in your script.js
 function sendBookingEmail() {
+    console.log("Button clicked. Attempting to send email..."); // Look for this in the console
     const emailBtn = document.getElementById('sendEmailBtn');
     
-    // Use the variables you already have in bookingState
-    const templateParams = {
+    // Check if emailjs loaded
+    if (typeof emailjs === 'undefined') {
+        alert("System error: Email library not loaded. Refresh the page.");
+        return;
+    }
+
+    // Replace these IDs with your actual IDs
+    const SERVICE_ID = "service_9zvuh43"; 
+    const TEMPLATE_ID = "template_5c3qryd";
+
+    emailjs.send(SERVICE_ID, TEMPLATE_ID, {
         client_name: bookingState.name,
         client_email: bookingState.email,
         service_name: bookingState.service,
         booking_date: bookingState.date,
         booking_time: bookingState.time,
         service_price: bookingState.price
-    };
-
-    emailBtn.innerHTML = 'Sending...';
-
-    emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", templateParams)
-        .then(function(response) {
-           alert("Confirmation email sent successfully!");
-           emailBtn.innerHTML = 'Email Sent!';
-        }, function(error) {
-           console.log("FAILED...", error);
-           alert("Email failed to send.");
-        });
+    })
+    .then(function(response) {
+       console.log("SUCCESS!", response.status, response.text);
+       alert("Confirmation email sent!");
+    }, function(error) {
+       console.error("FAILED...", error);
+       alert("Error: " + JSON.stringify(error));
+    });
 }
 
 function resetBooking() {
