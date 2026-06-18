@@ -153,14 +153,15 @@ function renderCalendar() {
         const isToday = date.toDateString() === today.toDateString();
         const isPast = date < today && !isToday;
         const isSelected = selectedDate && date.toDateString() === selectedDate.toDateString();
-        const isSunday = date.getDay() === 0;
         
+        // Removed the isSunday restriction from here
         let classes = 'calendar-day';
-        if (isPast || isSunday) classes += ' disabled';
+        if (isPast) classes += ' disabled';
         if (isToday) classes += ' today';
         if (isSelected) classes += ' selected';
         
-        if (isPast || isSunday) {
+        // Removed the isSunday restriction from here as well
+        if (isPast) {
             html += `<div class="${classes}">${day}</div>`;
         } else {
             html += `<div class="${classes}" onclick="selectDate(${year}, ${month}, ${day})">${day}</div>`;
