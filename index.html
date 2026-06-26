@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Gentleman's Chair | Premium Barber Shop - Béjaïa</title>
+<title>Salim Coiffure | Salon de Coiffure Premium - Béjaïa</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -18,16 +18,16 @@
 <header id="header">
     <div class="nav-container">
         <a href="#" class="logo" onclick="closeMobileMenu()">
-           <img src="logo.png" alt="The Gentleman's Chair Logo" style="height: 60px; width: auto; object-fit: contain;">
-            <div class="logo-text">The Gentleman's <span>Chair</span></div>
+           <img src="logo.png" alt="Logo The Gentleman's Chair" style="height: 60px; width: auto; object-fit: contain;">
+            <div class="logo-text">Salim <span>Coiffure</span></div>
         </a>
         <nav class="nav-links" id="navLinks">
             <a href="#services" onclick="closeMobileMenu()">Services</a>
-            <a href="#team" onclick="closeMobileMenu()">Our Team</a>
-            <a href="#location" onclick="closeMobileMenu()">Location</a>
-            <a href="#booking" class="btn btn-primary" onclick="closeMobileMenu()">Book Now</a>
+            <a href="#team" onclick="closeMobileMenu()">Notre Équipe</a>
+            <a href="#location" onclick="closeMobileMenu()">Emplacement</a>
+            <a href="#booking" class="btn btn-primary" onclick="closeMobileMenu()">Réserver</a>
         </nav>
-        <button class="mobile-menu-btn" id="menuBtn" onclick="toggleMobileMenu()" aria-label="Toggle Navigation">
+        <button class="mobile-menu-btn" id="menuBtn" onclick="toggleMobileMenu()" aria-label="Basculer la Navigation">
             <span></span><span></span><span></span>
         </button>
     </div>
@@ -38,17 +38,17 @@
     <div class="hero-content">
         <div class="hero-badge">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            Béjaïa's Finest Since 2018
+            Le Meilleur de Béjaïa Depuis 2018
         </div>
-        <h1>Premium Cuts.<br><span class="accent">Classic Experience.</span></h1>
-        <p class="hero-subtitle">Expert grooming for the modern gentleman in the heart of Béjaïa. Where tradition meets precision.</p>
+        <h1>Coupe Premium.<br><span class="accent">Expérience Classique.</span></h1>
+        <p class="hero-subtitle">Coiffure experte pour le gentleman moderne. Là où la tradition rencontre la précision.</p>
         <div class="hero-buttons">
-            <a href="#booking" class="btn btn-primary btn-large">Book Appointment</a>
-            <a href="#services" class="btn btn-outline btn-large">View Pricing</a>
+            <a href="#booking" class="btn btn-primary btn-large">Prendre Rendez-vous</a>
+            <a href="#services" class="btn btn-outline btn-large">Voir les Tarifs</a>
         </div>
     </div>
     <div class="scroll-indicator">
-        <span>Scroll</span>
+        <span>Défiler</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
     </div>
 </section>
@@ -56,82 +56,82 @@
 <section id="services">
     <div class="container">
         <div class="section-header reveal">
-            <div class="section-label">What We Offer</div>
-            <h2 class="section-title">Services & Pricing</h2>
-            <p class="section-desc">Every service is crafted with precision, using premium products and time-honored techniques.</p>
+            <div class="section-label">Ce Que Nous Offrons</div>
+            <h2 class="section-title">Services & Tarifs</h2>
+            <p class="section-desc">Chaque service est réalisé avec précision, en utilisant des produits premium et des techniques éprouvées.</p>
         </div>
         <div class="services-grid">
             <div class="service-card reveal" onclick="selectServiceFromCard('Classic Haircut', 1500)">
                 <div class="service-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
                 </div>
-                <h3 class="service-name">Classic Haircut</h3>
+                <h3 class="service-name">Coupe Classique</h3>
                 <div class="service-meta">
-                    <span class="service-duration"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>45 mins</span>
+                    <span class="service-duration"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>45 min</span>
                     <span class="service-price">300 DZD</span>
                 </div>
-                <p class="service-desc">Precision cut tailored to your face shape, followed by a hot towel treatment and custom styling with premium pomade.</p>
-                <div class="service-select-hint"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Click to book this service</div>
+                <p class="service-desc">Coupe de précision adaptée à la forme de votre visage, suivie d'un traitement à la serviette chaude et d'un coiffage personnalisé avec une pomade premium.</p>
+                <div class="service-select-hint"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Cliquez pour réserver ce service</div>
             </div>
             <div class="service-card reveal" onclick="selectServiceFromCard('Beard Trim & Lineup', 1000)">
                 <div class="service-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2z"/><path d="M12 3v6"/><path d="M8 9h8"/><path d="M10 15h4"/></svg>
                 </div>
-                <h3 class="service-name">Beard Trim & Lineup</h3>
+                <h3 class="service-name">Taille de Barbe & Contours</h3>
                 <div class="service-meta">
-                    <span class="service-duration"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>30 mins</span>
+                    <span class="service-duration"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>30 min</span>
                     <span class="service-price">200 DZD</span>
                 </div>
-                <p class="service-desc">Razor-sharp edges with straight razor lineup, followed by premium beard oil conditioning and hot towel finish.</p>
-                <div class="service-select-hint"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Click to book this service</div>
+                <p class="service-desc">Contours nets au rasoir droit, suivis d'un conditionnement à l'huile à barbe premium et d'une finition à la serviette chaude.</p>
+                <div class="service-select-hint"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Cliquez pour réserver ce service</div>
             </div>
             <div class="service-card reveal" onclick="selectServiceFromCard('The Full Gentleman', 2500)">
                 <div class="service-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
                 </div>
-                <h3 class="service-name">The Full Gentleman</h3>
+                <h3 class="service-name">Le Gentleman Complet</h3>
                 <div class="service-meta">
-                    <span class="service-duration"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>60 mins</span>
+                    <span class="service-duration"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>60 min</span>
                     <span class="service-price">1000 DZD</span>
                 </div>
-                <p class="service-desc">The complete package: haircut, beard trim, hot towel shave, facial scrub, and a relaxing head massage with essential oils.</p>
-                <div class="service-select-hint"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Click to book this service</div>
+                <p class="service-desc">Le forfait complet : coupe, taille de barbe, rasage à la serviette chaude, gommage du visage et massage relaxant du cuir chevelu aux huiles essentielles.</p>
+                <div class="service-select-hint"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Cliquez pour réserver ce service</div>
             </div>
             <div class="service-card reveal" onclick="selectServiceFromCard('Hot Towel Shave', 1200)">
                 <div class="service-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M8 13h8"/><path d="M8 17h5"/></svg>
                 </div>
-                <h3 class="service-name">Hot Towel Shave</h3>
+                <h3 class="service-name">Rasage à la Serviette Chaude</h3>
                 <div class="service-meta">
-                    <span class="service-duration"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>40 mins</span>
+                    <span class="service-duration"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>40 min</span>
                     <span class="service-price">400 DZD</span>
                 </div>
-                <p class="service-desc">Traditional straight razor shave with multiple hot towels, pre-shave oil, and soothing aftershave balm application.</p>
-                <div class="service-select-hint"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Click to book this service</div>
+                <p class="service-desc">Rasage traditionnel au rasoir droit avec plusieurs serviettes chaudes, huile pré-rasage et application d'un baume après-rasage apaisant.</p>
+                <div class="service-select-hint"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Cliquez pour réserver ce service</div>
             </div>
             <div class="service-card reveal" onclick="selectServiceFromCard('Hair & Beard Combo', 2000)">
                 <div class="service-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 6v6m4.22-10.22l4.24-4.24M6.34 6.34L2.1 2.1m17.8 17.8l-4.24-4.24M6.34 17.66l-4.24 4.24M23 12h-6m-6 0H1m20.24-4.24l-4.24 4.24M6.34 6.34l-4.24-4.24"/></svg>
                 </div>
-                <h3 class="service-name">Hair & Beard Combo</h3>
+                <h3 class="service-name">Forfait Cheveux & Barbe</h3>
                 <div class="service-meta">
-                    <span class="service-duration"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>50 mins</span>
+                    <span class="service-duration"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>50 min</span>
                     <span class="service-price">500 DZD</span>
                 </div>
-                <p class="service-desc">Our most popular combo. Full haircut plus beard trim and lineup with hot towel treatment for the complete refresh.</p>
-                <div class="service-select-hint"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Click to book this service</div>
+                <p class="service-desc">Notre combo le plus populaire. Coupe complète plus taille de barbe et contours avec traitement à la serviette chaude pour une remise à neuf complète.</p>
+                <div class="service-select-hint"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Cliquez pour réserver ce service</div>
             </div>
             <div class="service-card reveal" onclick="selectServiceFromCard('Kids Cut (Under 12)', 800)">
                 <div class="service-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                 </div>
-                <h3 class="service-name">Kids Cut (Under 12)</h3>
+                <h3 class="service-name">Coupe Enfant (Moins de 12 ans)</h3>
                 <div class="service-meta">
-                    <span class="service-duration"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>40 mins</span>
+                    <span class="service-duration"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>40 min</span>
                     <span class="service-price">250 DZD</span>
                 </div>
-                <p class="service-desc">Gentle, patient service for young gentlemen. Includes a fun cape, lollipop, and a style that makes them feel confident.</p>
-                <div class="service-select-hint"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Click to book this service</div>
+                <p class="service-desc">Service doux et patient pour les jeunes gentlemen. Inclut une cape amusante, une sucette et un style qui leur donne confiance.</p>
+                <div class="service-select-hint"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Cliquez pour réserver ce service</div>
             </div>
         </div>
     </div>
@@ -140,18 +140,18 @@
 <section id="team">
     <div class="container">
         <div class="section-header reveal">
-            <div class="section-label">The Artists</div>
-            <h2 class="section-title">Meet Our Team</h2>
-            <p class="section-desc">Masters of their craft, each with years of experience and a passion for the art of grooming.</p>
+            <div class="section-label">Les Artistes</div>
+            <h2 class="section-title">Rencontrez Notre Équipe</h2>
+            <p class="section-desc">Maîtres dans leur art, chacun avec des années d'expérience et une passion pour l'art de la coiffure.</p>
         </div>
         <div class="team-grid">
            
             <div class="team-card reveal">
                 <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=500&fit=crop&crop=face" alt="Karim" class="team-img">
                 <div class="team-info">
-                    <h3 class="team-name">Karim T.</h3>
-                    <p class="team-role">Senior Stylist - 8 years experience</p>
-                    <p class="team-bio">Expert in modern fades, textured crops, and beard sculpting. Known for his attention to detail and creative vision.</p>
+                    <h3 class="team-name">Salim R.</h3>
+                    <p class="team-role">Styliste Senior - 8 ans d'expérience</p>
+                    <p class="team-bio">Expert en dégradés modernes, coupes texturées et sculpture de barbe. Connu pour son attention aux détails et sa vision créative.</p>
                 </div>
             </div>
         </div>
@@ -161,9 +161,9 @@
 <section id="booking">
     <div class="container">
         <div class="section-header reveal">
-            <div class="section-label">Reserve Your Seat</div>
-            <h2 class="section-title">Book an Appointment</h2>
-            <p class="section-desc">Select your service, pick a time, and we'll have your chair ready.</p>
+            <div class="section-label">Réservez Votre Place</div>
+            <h2 class="section-title">Prendre un Rendez-vous</h2>
+            <p class="section-desc">Sélectionnez votre service, choisissez une heure et nous aurons votre chaise prête.</p>
         </div>
         <div class="booking-container reveal">
             <div class="booking-form" id="bookingForm">
@@ -174,132 +174,132 @@
                     </div>
                     <div class="progress-step" id="step2Indicator">
                         <div class="progress-step-number">2</div>
-                        <div class="progress-step-label">Date & Time</div>
+                        <div class="progress-step-label">Date & Heure</div>
                     </div>
                     <div class="progress-step" id="step3Indicator">
                         <div class="progress-step-number">3</div>
-                        <div class="progress-step-label">Details</div>
+                        <div class="progress-step-label">Détails</div>
                     </div>
                 </div>
 
                 <div class="booking-step active" id="step1">
-                    <h3 class="step-title">Choose Your Service</h3>
-                    <p class="step-subtitle">Select the grooming experience you deserve.</p>
+                    <h3 class="step-title">Choisissez Votre Service</h3>
+                    <p class="step-subtitle">Sélectionnez l'expérience de coiffure que vous méritez.</p>
                     <div class="service-options" id="serviceOptions">
                         <div class="service-option" data-service="Classic Haircut" data-price="300" onclick="selectService(this)">
-                            <div class="service-option-name">Classic Haircut</div>
+                            <div class="service-option-name">Coupe Classique</div>
                             <div class="service-option-price">300 DZD</div>
-                            <div class="service-option-duration">45 mins</div>
+                            <div class="service-option-duration">45 min</div>
                         </div>
                         <div class="service-option" data-service="Beard Trim & Lineup" data-price="200" onclick="selectService(this)">
-                            <div class="service-option-name">Beard Trim & Lineup</div>
+                            <div class="service-option-name">Taille de Barbe & Contours</div>
                             <div class="service-option-price">200 DZD</div>
-                            <div class="service-option-duration">30 mins</div>
+                            <div class="service-option-duration">30 min</div>
                         </div>
                         <div class="service-option" data-service="The Full Gentleman" data-price="1000" onclick="selectService(this)">
-                            <div class="service-option-name">The Full Gentleman</div>
+                            <div class="service-option-name">Le Gentleman Complet</div>
                             <div class="service-option-price">1000 DZD</div>
-                            <div class="service-option-duration">60 mins</div>
+                            <div class="service-option-duration">60 min</div>
                         </div>
                         <div class="service-option" data-service="Hot Towel Shave" data-price="400" onclick="selectService(this)">
-                            <div class="service-option-name">Hot Towel Shave</div>
+                            <div class="service-option-name">Rasage à la Serviette Chaude</div>
                             <div class="service-option-price">400 DZD</div>
-                            <div class="service-option-duration">40 mins</div>
+                            <div class="service-option-duration">40 min</div>
                         </div>
                         <div class="service-option" data-service="Hair & Beard Combo" data-price="500" onclick="selectService(this)">
-                            <div class="service-option-name">Hair & Beard Combo</div>
+                            <div class="service-option-name">Forfait Cheveux & Barbe</div>
                             <div class="service-option-price">500 DZD</div>
-                            <div class="service-option-duration">50 mins</div>
+                            <div class="service-option-duration">50 min</div>
                         </div>
                         <div class="service-option" data-service="Kids Cut (Under 12)" data-price="250" onclick="selectService(this)">
-                            <div class="service-option-name">Kids Cut (Under 12)</div>
+                            <div class="service-option-name">Coupe Enfant (Moins de 12 ans)</div>
                             <div class="service-option-price">250 DZD</div>
-                            <div class="service-option-duration">40 mins</div>
+                            <div class="service-option-duration">40 min</div>
                         </div>
                     </div>
                     <div class="booking-actions">
-                        <button class="btn btn-primary" id="step1Next" onclick="goToStep(2)" disabled>Continue</button>
+                        <button class="btn btn-primary" id="step1Next" onclick="goToStep(2)" disabled>Continuer</button>
                     </div>
                 </div>
 
                 <div class="booking-step" id="step2">
-                    <h3 class="step-title">Pick a Date & Time</h3>
-                    <p class="step-subtitle">Choose when you'd like to visit us.</p>
+                    <h3 class="step-title">Choisissez une Date & Heure</h3>
+                    <p class="step-subtitle">Choisissez quand vous souhaitez nous rendre visite.</p>
                     <div class="date-picker">
                         <div class="date-nav">
                             <button type="button" onclick="changeMonth(-1)" id="prevMonth"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
-                            <div class="current-month" id="currentMonth">June 2026</div>
+                            <div class="current-month" id="currentMonth">Juin 2026</div>
                             <button type="button" onclick="changeMonth(1)" id="nextMonth"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
                         </div>
                         <div class="calendar-grid" id="calendarHeader">
-                            <div class="calendar-day-label">Sun</div><div class="calendar-day-label">Mon</div><div class="calendar-day-label">Tue</div><div class="calendar-day-label">Wed</div><div class="calendar-day-label">Thu</div><div class="calendar-day-label">Fri</div><div class="calendar-day-label">Sat</div>
+                            <div class="calendar-day-label">Dim</div><div class="calendar-day-label">Lun</div><div class="calendar-day-label">Mar</div><div class="calendar-day-label">Mer</div><div class="calendar-day-label">Jeu</div><div class="calendar-day-label">Ven</div><div class="calendar-day-label">Sam</div>
                         </div>
                         <div class="calendar-grid" id="calendarGrid"></div>
                     </div>
                     <div class="time-slots" id="timeSlotsContainer" style="display:none;">
-                        <div class="time-slots-label">Available Time Slots</div>
+                        <div class="time-slots-label">Créneaux Horaires Disponibles</div>
                         <div class="time-grid" id="timeGrid"></div>
                     </div>
                     <div class="booking-actions">
-                        <button type="button" class="btn btn-back" onclick="goToStep(1)">Back</button>
-                        <button type="button" class="btn btn-primary" id="step2Next" onclick="goToStep(3)" disabled>Continue</button>
+                        <button type="button" class="btn btn-back" onclick="goToStep(1)">Retour</button>
+                        <button type="button" class="btn btn-primary" id="step2Next" onclick="goToStep(3)" disabled>Continuer</button>
                     </div>
                 </div>
 
                 <div class="booking-step" id="step3">
-                    <h3 class="step-title">Your Details</h3>
-                    <p class="step-subtitle">Almost there. Tell us who you are.</p>
+                    <h3 class="step-title">Vos Coordonnées</h3>
+                    <p class="step-subtitle">Vous y êtes presque. Dites-nous qui vous êtes.</p>
                     <div class="booking-summary">
-                        <h4>Booking Summary</h4>
+                        <h4>Récapitulatif de la Réservation</h4>
                         <div class="summary-row"><span>Service</span><span id="summaryService">-</span></div>
                         <div class="summary-row"><span>Date</span><span id="summaryDate">-</span></div>
-                        <div class="summary-row"><span>Time</span><span id="summaryTime">-</span></div>
+                        <div class="summary-row"><span>Heure</span><span id="summaryTime">-</span></div>
                         <div class="summary-row"><span>Total</span><span id="summaryPrice">-</span></div>
                     </div>
                     <div class="form-group">
-                        <label for="clientName">Full Name <span>*</span></label>
-                        <input type="text" id="clientName" placeholder="e.g. Ahmed Benali" oninput="validateForm()">
-                        <div id="nameError" class="error-message" style="color: #ff4d4d; font-size: 0.85rem; margin-top: 5px; display: none;">Full name must be at least 3 characters.</div>
+                        <label for="clientName">Nom Complet <span>*</span></label>
+                        <input type="text" id="clientName" placeholder="ex. Ahmed Benali" oninput="validateForm()">
+                        <div id="nameError" class="error-message" style="color: #ff4d4d; font-size: 0.85rem; margin-top: 5px; display: none;">Le nom complet doit contenir au moins 3 caractères.</div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="clientPhone">Phone Number <span>*</span></label>
-                            <input type="tel" id="clientPhone" placeholder="e.g. 0550 12 34 56" oninput="validateForm()">
-                            <div id="phoneError" class="error-message" style="color: #ff4d4d; font-size: 0.85rem; margin-top: 5px; display: none;">Please enter a valid phone number (minimum 9 digits).</div>
+                            <label for="clientPhone">Numéro de Téléphone <span>*</span></label>
+                            <input type="tel" id="clientPhone" placeholder="ex. 0550 12 34 56" oninput="validateForm()">
+                            <div id="phoneError" class="error-message" style="color: #ff4d4d; font-size: 0.85rem; margin-top: 5px; display: none;">Veuillez entrer un numéro de téléphone valide (minimum 9 chiffres).</div>
                         </div>
                         <div class="form-group">
-                            <label for="clientEmail">Email Address </label>
-                            <input type="email" id="clientEmail" placeholder="e.g. ahmed@email.com" oninput="validateForm()">
-                            <div id="emailError" class="error-message" style="color: #ff4d4d; font-size: 0.85rem; margin-top: 5px; display: none;">Please enter a valid email address format.</div>
+                            <label for="clientEmail">Adresse Email </label>
+                            <input type="email" id="clientEmail" placeholder="ex. ahmed@email.com" oninput="validateForm()">
+                            <div id="emailError" class="error-message" style="color: #ff4d4d; font-size: 0.85rem; margin-top: 5px; display: none;">Veuillez entrer une adresse email valide.</div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="clientNotes">Special Requests (Optional)</label>
-                        <textarea id="clientNotes" rows="3" placeholder="Any preferences or requests..."></textarea>
+                        <label for="clientNotes">Demandes Spéciales (Optionnel)</label>
+                        <textarea id="clientNotes" rows="3" placeholder="Préférences ou demandes particulières..."></textarea>
                     </div>
                     <div class="booking-actions">
-                        <button type="button" class="btn btn-back" onclick="goToStep(2)">Back</button>
-                        <button type="button" class="btn btn-primary btn-large" id="confirmBtn" onclick="submitBooking()" disabled>Confirm Reservation</button>
+                        <button type="button" class="btn btn-back" onclick="goToStep(2)">Retour</button>
+                        <button type="button" class="btn btn-primary btn-large" id="confirmBtn" onclick="submitBooking()" disabled>Confirmer la Réservation</button>
                     </div>
                 </div>
 
                 <div class="booking-success" id="bookingSuccess">
                     <div class="success-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-                    <h2 class="success-title">Success!</h2>
-                    <p class="success-message">Your appointment is locked in. We'll send you a confirmation shortly.</p>
+                    <h2 class="success-title">Succès !</h2>
+                    <p class="success-message">Votre rendez-vous est confirmé. Nous vous enverrons une confirmation sous peu.</p>
                     <div class="success-details">
-                        <p><span>Service:</span> <strong id="successService">-</strong></p>
-                        <p><span>Date:</span> <strong id="successDate">-</strong></p>
-                        <p><span>Time:</span> <strong id="successTime">-</strong></p>
-                        <p><span>Name:</span> <strong id="successName">-</strong></p>
+                        <p><span>Service :</span> <strong id="successService">-</strong></p>
+                        <p><span>Date :</span> <strong id="successDate">-</strong></p>
+                        <p><span>Heure :</span> <strong id="successTime">-</strong></p>
+                        <p><span>Nom :</span> <strong id="successName">-</strong></p>
                     </div>
 
                     <div class="email-action-wrapper" style="margin-bottom: 1rem; width: 100%;">
-                        <button id="sendEmailBtn" onclick="sendBookingEmail()">Send by Email</button>
+                        <button id="sendEmailBtn" onclick="sendBookingEmail()">Envoyer par Email</button>
                        
                     </div>
 
-                    <button type="button" class="btn btn-outline" onclick="resetBooking()">Book Another</button>
+                    <button type="button" class="btn btn-outline" onclick="resetBooking()">Réserver un Autre</button>
                 </div>
             </div>
         </div>
@@ -312,18 +312,18 @@
             <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d412.3515745144088!2d4.863349871744618!3d36.68263130572744!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sfr!2sdz!4v1781621740003!5m2!1sfr!2sdz" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
         <div class="location-info">
-            <div class="section-label">Find Us</div>
-            <h2 class="section-title">Visit Our Shop</h2>
-            <p class="location-address">Rue Mohamed VI, Cité des Oliviers<br>Béjaïa, Algeria 06000</p>
+            <div class="section-label">Retrouvez-nous</div>
+            <h2 class="section-title">Visitez Notre Salon</h2>
+            <p class="location-address">LPA 200, Berchiche<br>Béjaïa, Algérie</p>
             <div class="hours-list">
-                <h4>Opening Hours</h4>
-                <div class="hours-row"><span class="day">Sunday</span><span class="time">10:00 AM — 22:00 PM</span></div>
-                <div class="hours-row"><span class="day">Monday</span><span class="time">10:00 AM — 22:00 PM</span></div>
-                <div class="hours-row"><span class="day">Tuesday</span><span class="time">10:00 AM — 22:00 PM</span></div>
-                <div class="hours-row"><span class="day">Wednesday</span><span class="time">10:00 AM — 22:00 PM</span></div>
-                <div class="hours-row"><span class="day">Thursday</span><span class="time">10:00 AM — 22:00 PM</span></div>
-                <div class="hours-row"><span class="day">Friday</span><span class="time">14:00 PM — 22:00 PM</span></div>
-                <div class="hours-row"><span class="day">Saturday</span><span class="time">10:00 AM — 22:00 PM</span></div>
+                <h4>Heures d'Ouverture</h4>
+                <div class="hours-row"><span class="day">Dimanche</span><span class="time">10h00 — 22h00</span></div>
+                <div class="hours-row"><span class="day">Lundi</span><span class="time">10h00 — 22h00</span></div>
+                <div class="hours-row"><span class="day">Mardi</span><span class="time">10h00 — 22h00</span></div>
+                <div class="hours-row"><span class="day">Mercredi</span><span class="time">10h00 — 22h00</span></div>
+                <div class="hours-row"><span class="day">Jeudi</span><span class="time">10h00 — 22h00</span></div>
+                <div class="hours-row"><span class="day">Vendredi</span><span class="time">14h00 — 22h00</span></div>
+                <div class="hours-row"><span class="day">Samedi</span><span class="time">10h00 — 22h00</span></div>
                 
             </div>
             <a href="tel:+213670778669" class="contact-phone">
@@ -337,14 +337,14 @@
 <footer>
     <div class="footer-content">
         <div class="footer-left">
-            <div class="footer-logo">The Gentleman's <span>Chair</span></div>
-            <div class="footer-copy">© 2026 The Gentleman's Chair. All rights reserved.</div>
+            <div class="footer-logo">Salim <span>Coiffure</span></div>
+            <div class="footer-copy">© 2026 Salim Coiffure. Tous droits réservés.</div>
         </div>
         <div class="footer-social">
             <a href="#" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
             <a href="#" aria-label="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
         </div>
-        <div class="footer-credit">Designed & developed with precision by <a href="#">Kako Hakim</a></div>
+        <div class="footer-credit">Conçu & développé avec précision par <a href="#">KAKO WEB</a></div>
     </div>
 </footer>
 
@@ -355,7 +355,7 @@
             <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none" />
             <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
         </svg>
-        <span id="notificationMessage">Email Sent Successfully!</span>
+        <span id="notificationMessage">Email Envoyé avec Succès !</span>
     </div>
 </div>
 </body>
